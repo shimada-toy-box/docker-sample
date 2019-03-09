@@ -3,6 +3,7 @@ version: '3.7'
 services:
   api:
     build: ./api
+    command: bin/rails s puma
     container_name: docker-sample_api
     depends_on:
       - db
@@ -11,6 +12,8 @@ services:
       DEVELOPMENT_DB_PASSWORD: password
       TEST_DB_HOST: db
       TEST_DB_PASSWORD: password
+    ports:
+      - '3000:3000'
     stdin_open: true
     tty: true
     volumes:

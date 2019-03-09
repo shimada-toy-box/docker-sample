@@ -29,6 +29,7 @@ bin/docker {command}
 | init | docker環境を初期化する | bin/docker init |
 | rails | rails コマンドを実行する | bin/docker rails c |
 | rake | rake コマンドを実行する | bin/docker rake db:schema:load |
+| rubocop | rubocop コマンドを実行する | bin/docker rubocop |
 | run | 任意のコンテナを立ち上げてコマンドを実行する | bin/docker run web bundle install |
 | stats | コンテナのリソース監視する  | bin/docker stats |
 | stop | コンテナを停止する  | bin/docker stop |
@@ -58,7 +59,7 @@ docker環境が壊れてどうしようもないような場合に使う。
 このコマンドではDBのデータなどは削除されない。
 
 #### 各アプリケーションのショートカットコマンド
-`bin/docker bundle` とか `bin/docker rails` とか `bin/docker rake`などアプリケーションを実行するためのコマンドについては、実行に最適なコンテナで実行されるように調整されているため積極的に利用することを推奨。
+`bin/docker bundle` とか `bin/docker rails` とか `bin/docker rubocop`などアプリケーションを実行するためのコマンドについては、実行に最適なコンテナで実行されるように調整されているため積極的に利用することを推奨。
 
 ## 参考
 [Docker ドキュメント日本語化プロジェクト](http://docs.docker.jp/)

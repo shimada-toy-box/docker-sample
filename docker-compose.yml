@@ -1,10 +1,8 @@
 version: '3.7'
 
-services:
-  api:
+x-custom:
+  rails: &rails
     build: ./api
-    command: bin/rails s puma
-    container_name: docker-sample_api
     depends_on:
       - db
     environment:
@@ -12,13 +10,19 @@ services:
       DEVELOPMENT_DB_PASSWORD: password
       TEST_DB_HOST: db
       TEST_DB_PASSWORD: password
-    ports:
-      - '3000:3000'
     stdin_open: true
     tty: true
     volumes:
       - ./api:/api
       - bundle:/usr/local/bundle
+
+services:
+  api:
+    <<: *rails
+    command: bin/rails s puma
+    container_name: docker-sample_api
+    ports:
+      - '3000:3000'
   db:
     command: --sql_mode="NO_ENGINE_SUBSTITUTION"
     container_name: docker-sample_db

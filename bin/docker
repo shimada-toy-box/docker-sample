@@ -18,6 +18,7 @@ Commands:
   init        Initialize docker images, network, and volumes
   rails       Run rails in spring container
   rake        Run rake in spring container
+  rubocop     Run rubocop in spring container
   run         Start choosed container and run command
   stats       Display a live stream of containers resource usage statistics
   stop        Stop containers
@@ -80,6 +81,10 @@ function rails() {
 
 function rake() {
   docker-compose exec spring bin/rake $@
+}
+
+function rubocop() {
+  docker-compose exec spring bin/rubocop $@
 }
 
 function run() {
@@ -181,6 +186,12 @@ case "${1}" in
   "rake")
     shift
     rake $@
+    exit 1
+  ;;
+
+  "rubocop")
+    shift
+    rubocop $@
     exit 1
   ;;
 

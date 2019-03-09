@@ -4,12 +4,29 @@ services:
   api:
     build: ./api
     container_name: docker-sample_api
+    depends_on:
+      - db
+    environment:
+      DEVELOPMENT_DB_HOST: db
+      DEVELOPMENT_DB_PASSWORD: password
+      TEST_DB_HOST: db
+      TEST_DB_PASSWORD: password
     stdin_open: true
     tty: true
     volumes:
       - ./api:/api
       - bundle:/usr/local/bundle
+  db:
+    command: --sql_mode="NO_ENGINE_SUBSTITUTION"
+    container_name: docker-sample_db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    image: mysql:5.7
+    volumes:
+      - mysql:/var/lib/mysql
 
 volumes:
   bundle:
     name: docker-sample_api_bundle
+  mysql:
+    name: docker-sample_db_mysql

@@ -8,3 +8,8 @@ services:
     tty: true
     volumes:
       - ./api:/api
+      - bundle:/usr/local/bundle
+
+volumes:
+  bundle:
+    name: docker-sample_api_bundle

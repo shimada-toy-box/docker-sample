@@ -16,8 +16,8 @@ Commands:
   clean       Remove all containers and images
   exec        Run command in choosed container
   init        Initialize docker images, network, and volumes
-  rails       Run rails in api container
-  rake        Run rake in api container
+  rails       Run rails in spring container
+  rake        Run rake in spring container
   run         Start choosed container and run command
   stats       Display a live stream of containers resource usage statistics
   stop        Stop containers
@@ -75,11 +75,11 @@ function init() {
 }
 
 function rails() {
-  docker-compose exec api bin/rails $@
+  docker-compose exec spring bin/rails $@
 }
 
 function rake() {
-  docker-compose exec api bin/rake $@
+  docker-compose exec spring bin/rake $@
 }
 
 function run() {
@@ -108,6 +108,10 @@ function up() {
 }
 
 function rm_pids() {
+  if [ -e tmp/spring ]; then
+     rm -rf tmp/spring
+  fi
+
   if [ -e tmp/pids/server.pid ]; then
      rm tmp/pids/server.pid
   fi

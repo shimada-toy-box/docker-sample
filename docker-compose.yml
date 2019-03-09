@@ -8,6 +8,7 @@ x-custom:
     environment:
       DEVELOPMENT_DB_HOST: db
       DEVELOPMENT_DB_PASSWORD: password
+      SPRING_TMP_PATH: /tmp/spring
       TEST_DB_HOST: db
       TEST_DB_PASSWORD: password
     stdin_open: true
@@ -15,6 +16,7 @@ x-custom:
     volumes:
       - ./api:/api
       - bundle:/usr/local/bundle
+      - spring:/tmp/spring
 
 services:
   api:
@@ -23,6 +25,10 @@ services:
     container_name: docker-sample_api
     ports:
       - '3000:3000'
+  spring:
+    <<: *rails
+    container_name: docker-sample_spring
+    command: bin/spring server
   db:
     command: --sql_mode="NO_ENGINE_SUBSTITUTION"
     container_name: docker-sample_db
@@ -37,3 +43,5 @@ volumes:
     name: docker-sample_api_bundle
   mysql:
     name: docker-sample_db_mysql
+  spring:
+    name: docker-sample_spring_socket

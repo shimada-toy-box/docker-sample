@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  api:
+    build: ./api
+    container_name: docker-sample_api
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./api:/api
+      - bundle:/usr/local/bundle
+
+volumes:
+  bundle:
+    name: docker-sample_api_bundle

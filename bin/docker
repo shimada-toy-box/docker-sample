@@ -1,0 +1,211 @@
+#!/bin/bash
+
+set -u
+
+RAILS_ROOT=$(cd $(dirname $0)/../ && pwd)
+
+function usage() {
+  cat <<EOF
+Usage:
+  $(basename ${0} [command])
+Commands:
+  build       Build images
+  bundle      Run bundle in api container
+  destroy     Remove all containers, images and volumes
+  down        Remove all containers
+  clean       Remove all containers and images
+  exec        Run command in choosed container
+  init        Initialize docker images, network, and volumes
+  rails       Run rails in api container
+  rake        Run rake in api container
+  run         Start choosed container and run command
+  stats       Display a live stream of containers resource usage statistics
+  stop        Stop containers
+  top         Display the running processes
+  up          Start containers as foreground
+EOF
+}
+
+function build() {
+  echo -e $'\n\e[32mBuild images\e[m'
+  init_if_need
+  docker-compose build
+}
+
+function bundle() {
+  docker-compose exec api bundle $@
+}
+
+function destroy() {
+  echo -e $'\n\e[32mRemove all containers, images and volumes\e[m'
+  docker-compose down --volumes --rmi all --remove-orphans
+  docker image prune -f
+  rm tmp/docker-init.lock
+  rm_pids
+}
+
+function down() {
+  echo -e $'\n\e[32mRemove all containers\e[m'
+  docker-compose down
+  rm_pids
+}
+
+function clean() {
+  echo -e $'\n\e[32mRemove all containers and images\e[m'
+  docker-compose down --rmi all --remove-orphans
+  docker image prune -f
+  rm_pids
+}
+
+function execute() {
+  docker-compose exec $@
+}
+
+function init() {
+  if [ -e tmp/docker-init.lock ]; then
+    destroy
+  fi
+  echo -e $'\n\e[32mInitialize docker images, network, and volumes\e[m'
+  git submodule update -i
+  docker-compose run --rm api bundle install -j4 --system --clean
+  init_db
+  touch tmp/docker-init.lock
+}
+
+function rails() {
+  docker-compose exec api bin/rails $@
+}
+
+function rake() {
+  docker-compose exec api bin/rake $@
+}
+
+function run() {
+  docker-compose run --rm $@
+}
+
+function stats() {
+  docker stats
+}
+
+function stop() {
+  echo -e $'\n\e[32mStop containers\e[m'
+  docker-compose stop
+  rm_pids
+}
+
+function top() {
+  docker-compose top
+}
+
+function up() {
+  init_if_need
+  echo -e $'\n\e[32mStart containers as foreground\e[m'
+  rm_pids
+  docker-compose up
+}
+
+function rm_pids() {
+  if [ -e tmp/pids/server.pid ]; then
+     rm tmp/pids/server.pid
+  fi
+}
+
+function init_if_need() {
+  if [ ! -e tmp/docker-init.lock ]; then
+    init
+  fi
+}
+
+function init_db() {
+  docker-compose run --rm api bundle exec rails db:create db:migrate db:test:prepare
+}
+
+shift `expr $OPTIND - 1`
+
+if [ $# -eq 0 ];then
+  usage
+  exit 1
+fi
+
+case "${1}" in
+  "build")
+    build
+    exit 1
+  ;;
+
+  "bundle")
+    shift
+    bundle $@
+    exit 1
+  ;;
+
+  "destroy")
+    destroy
+    exit 1
+  ;;
+
+  "down")
+    down
+    exit 1
+  ;;
+
+  "clean")
+    clean
+    exit 1
+  ;;
+
+  "exec")
+    shift
+    execute $@
+    exit 1
+  ;;
+
+  "init")
+    init
+    exit 1
+  ;;
+
+  "rails")
+    shift
+    rails $@
+    exit 1
+  ;;
+
+  "rake")
+    shift
+    rake $@
+    exit 1
+  ;;
+
+  "run")
+    shift
+    run $@
+    exit 1
+  ;;
+
+  "stats")
+    stats
+    exit 1
+  ;;
+
+  "stop")
+    stop
+    exit 1
+  ;;
+
+  "top")
+    top
+    exit 1
+  ;;
+
+  "up")
+    up
+    exit 1
+  ;;
+
+  *)
+    usage
+    exit 1
+  ;;
+esac

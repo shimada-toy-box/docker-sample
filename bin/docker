@@ -66,7 +66,9 @@ function init() {
     destroy
   fi
   echo -e $'\n\e[32mInitialize docker images, network, and volumes\e[m'
-  git submodule update -i
+  if [ ! -e api ]; then
+     git clone git@github.com:snowfield702/rails-sample.git api
+  fi
   docker-compose run --rm api bundle install -j4 --system --clean
   init_db
   touch tmp/docker-init.lock

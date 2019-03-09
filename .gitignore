@@ -1,3 +1,4 @@
 # Ignore all tempfiles.
 /tmp/*
 !/tmp/.keep
+api

@@ -22,6 +22,7 @@ Commands:
   rails       Run redis-cli in spring container
   rubocop     Run rubocop in spring container
   run         Start choosed container and run command
+  rspec       Run rspec in spring container
   stats       Display a live stream of containers resource usage statistics
   stop        Stop containers
   top         Display the running processes
@@ -102,6 +103,10 @@ function rubocop() {
 
 function run() {
   docker-compose run --rm $@
+}
+
+function rspec() {
+  docker-compose exec spring bin/rspec $@
 }
 
 function stats() {
@@ -228,6 +233,12 @@ case "${1}" in
   "run")
     shift
     run $@
+    exit 1
+  ;;
+
+  "rspec")
+    shift
+    rspec $@
     exit 1
   ;;
 

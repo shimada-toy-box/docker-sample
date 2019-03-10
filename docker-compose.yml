@@ -10,6 +10,7 @@ x-custom:
       DEVELOPMENT_DB_PASSWORD: password
       DEVELOPMENT_SMTP_ADDRESS: mailhog
       DEVELOPMENT_SMTP_PORT: 1025
+      SITE_HOST: localhost
       SPRING_TMP_PATH: /api/tmp/spring
       TEST_DB_HOST: db
       TEST_DB_PASSWORD: password

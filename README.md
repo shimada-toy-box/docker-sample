@@ -33,6 +33,7 @@ bin/docker {command}
 | init | docker環境を初期化する | bin/docker init |
 | rails | rails コマンドを実行する | bin/docker rails c |
 | rake | rake コマンドを実行する | bin/docker rake db:schema:load |
+| redis-cli | redis-cli コマンドを実行して指定したコンテナのデータを見る | bin/docker redis-cli cache |
 | rubocop | rubocop コマンドを実行する | bin/docker rubocop |
 | run | 任意のコンテナを立ち上げてコマンドを実行する | bin/docker run web bundle install |
 | stats | コンテナのリソース監視する  | bin/docker stats |

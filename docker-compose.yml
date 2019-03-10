@@ -20,7 +20,7 @@ x-custom:
 services:
   api:
     <<: *rails
-    command: bin/rails s puma
+    command: ["bin/rails", "s", "puma"]
     container_name: docker-sample_api
     ports:
       - '3000:3000'
@@ -29,11 +29,13 @@ services:
     container_name: docker-sample_spring
     command: bin/spring server
   db:
-    command: --sql_mode="NO_ENGINE_SUBSTITUTION"
+    command: ["--sql_mode=NO_ENGINE_SUBSTITUTION"]
     container_name: docker-sample_db
     environment:
       MYSQL_ROOT_PASSWORD: password
     image: mysql:5.7
+    ports:
+      - '3306:3306'
     volumes:
       - mysql:/var/lib/mysql
 

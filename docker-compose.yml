@@ -5,6 +5,7 @@ x-custom:
     build: ./api
     depends_on:
       - db
+      - cache
     environment:
       DEVELOPMENT_DB_HOST: db
       DEVELOPMENT_DB_PASSWORD: password
@@ -41,6 +42,11 @@ services:
       - '3306:3306'
     volumes:
       - mysql:/var/lib/mysql
+  cache:
+    container_name: docker-sample_cache
+    image: redis:5.0.3-alpine
+    volumes:
+      - cache_store:/data
   mailhog:
     build: ./mailhog
     container_name: docker-sample_mailhog
@@ -61,3 +67,5 @@ volumes:
     name: docker-sample_db_mysql
   maildir:
     name: docker-sample_mailhog_maildir
+  cache_store:
+    name: docker-sample_cache_store

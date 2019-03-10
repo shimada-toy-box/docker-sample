@@ -4,3 +4,5 @@
 api
 
 mailhog/outgoing_smtp.json
+
+.env

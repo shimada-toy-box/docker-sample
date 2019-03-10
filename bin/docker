@@ -70,6 +70,9 @@ function init() {
   if [ ! -e api ]; then
      git clone git@github.com:snowfield702/rails-sample.git api
   fi
+  if [ ! -e mailhog/outgoing_smtp.json ]; then
+     cp mailhog/outgoing_smtp.json.sample mailhog/outgoing_smtp.json
+  fi
   docker-compose run --rm api bundle install -j4 --system --clean
   init_db
   touch tmp/docker-init.lock

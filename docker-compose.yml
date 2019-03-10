@@ -7,6 +7,7 @@ x-custom:
       - db
       - cache
     environment:
+      CACHE_STORE_URL: redis://cache/0
       DEVELOPMENT_DB_HOST: db
       DEVELOPMENT_DB_PASSWORD: password
       DEVELOPMENT_SMTP_ADDRESS: mailhog

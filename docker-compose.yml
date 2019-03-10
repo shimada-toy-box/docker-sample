@@ -12,6 +12,8 @@ x-custom:
       DEVELOPMENT_DB_PASSWORD: password
       DEVELOPMENT_SMTP_ADDRESS: mailhog
       DEVELOPMENT_SMTP_PORT: 1025
+      NGROK_BASIC_PASS: "${NGROK_BASIC_PASS}"
+      NGROK_BASIC_USER: "${NGROK_BASIC_USER}"
       SITE_HOST: localhost
       SPRING_TMP_PATH: /api/tmp/spring
       TEST_DB_HOST: db

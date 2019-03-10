@@ -9,6 +9,7 @@ function usage() {
 Usage:
   $(basename ${0} [command])
 Commands:
+  attach      Attach local standard input, output, and error streams to a running container
   build       Build images
   bundle      Run bundle in api container
   destroy     Remove all containers, images and volumes
@@ -25,6 +26,10 @@ Commands:
   top         Display the running processes
   up          Start containers as foreground
 EOF
+}
+
+function attach() {
+  docker attach $(docker-compose ps -q $1)
 }
 
 function build() {
@@ -73,7 +78,7 @@ function init() {
   if [ ! -e mailhog/outgoing_smtp.json ]; then
      cp mailhog/outgoing_smtp.json.sample mailhog/outgoing_smtp.json
   fi
-  docker-compose run --rm api bundle install -j4 --system --clean
+  bundle_install
   init_db
   touch tmp/docker-init.lock
 }
@@ -111,6 +116,7 @@ function top() {
 function up() {
   init_if_need
   echo -e $'\n\e[32mStart containers as foreground\e[m'
+  bundle_install
   rm_pids
   docker-compose up
 }
@@ -135,6 +141,10 @@ function init_db() {
   docker-compose run --rm api bundle exec rails db:create db:migrate db:test:prepare
 }
 
+function bundle_install() {
+  docker-compose run --rm api bundle install -j4 --system --clean
+}
+
 shift `expr $OPTIND - 1`
 
 if [ $# -eq 0 ];then
@@ -143,6 +153,12 @@ if [ $# -eq 0 ];then
 fi
 
 case "${1}" in
+  "attach")
+    shift
+    attach $@
+    exit 1
+  ;;
+
   "build")
     build
     exit 1

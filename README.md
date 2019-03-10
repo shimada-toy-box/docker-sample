@@ -23,6 +23,7 @@ bin/docker {command}
 
 | command | 内容 | 例 |
 | --- | --- | --- |
+| attach | 指定したコンテナの標準入力にアタッチする | bin/docker attach api |
 | build | イメージを作成する | bin/docker build |
 | bundle | bundle コマンドを実行する | bin/docker bundle install |
 | destroy | docker環境を完全に削除 | bin/docker destroy |
@@ -60,6 +61,10 @@ docker環境が壊れてどうしようもないような場合に使う。
 コンテナとイメージを削除する。
 イメージを削除することで容量に空きができるため、長期間作業を行わない場合はこのコマンドを使うことをオススメする。
 このコマンドではDBのデータなどは削除されない。
+
+### bin/docker attach api
+指定したコンテナの標準入力にアタッチする
+railsのbyebugを利用する際はapiコンテナにアタッチすること
 
 #### 各アプリケーションのショートカットコマンド
 `bin/docker bundle` とか `bin/docker rails` とか `bin/docker rubocop`などアプリケーションを実行するためのコマンドについては、実行に最適なコンテナで実行されるように調整されているため積極的に利用することを推奨。

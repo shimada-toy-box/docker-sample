@@ -102,3 +102,23 @@ mailhogには受信したメールを再転送する仕組みがある。
 ### 参考
 [https://github.com/mailhog/MailHog](https://github.com/mailhog/MailHog)
 
+
+## ngrok
+ngrokを利用することでlocalhostを外部に公開できるようになる
+
+### ngrokの使い方
+ngrokの使い方はこのあたりを読むこと
+https://qiita.com/kitaro729/items/44214f9f81d3ebda58bd
+
+### BasicAuth
+`*.ngrok.io` でアクセスが来た場合はBasicAuthが必要な設定にしてある
+
+BasicAuthのユーザー名とパスワードは.envで以下の環境変数で設定すること
+
+```
+NGROK_BASIC_USER={好きなユーザー名}
+NGROK_BASIC_PASS={好きなパスワード}
+```
+
+### 参考
+[ngrok](https://ngrok.com/)

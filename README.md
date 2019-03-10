@@ -3,6 +3,9 @@
 - [Docker for Mac](https://docs.docker.com/docker-for-mac/install/) がインストールされていること
 - [docker-compose](https://docs.docker.com/compose/install/) がインストールされていること
 
+### 参考
+[Docker ドキュメント日本語化プロジェクト](http://docs.docker.jp/)
+
 ## installation
 以下のコマンドを実行することで環境構築と起動が行われる
 ```
@@ -61,5 +64,35 @@ docker環境が壊れてどうしようもないような場合に使う。
 #### 各アプリケーションのショートカットコマンド
 `bin/docker bundle` とか `bin/docker rails` とか `bin/docker rubocop`などアプリケーションを実行するためのコマンドについては、実行に最適なコンテナで実行されるように調整されているため積極的に利用することを推奨。
 
-## 参考
-[Docker ドキュメント日本語化プロジェクト](http://docs.docker.jp/)
+## Mailhog
+アプリケーションから送信したメールは全てmailhogコンテナ内に保管され、実際に外部のメールサーバーには送信しないようにしてある。
+
+この設定により開発環境で想定外の相手に対してメールを送信するような事故を防ぐ。
+
+### コンソール
+以下のURLで受信したメールを確認することができる
+
+[http://localhost:8025/](http://localhost:8025/)
+
+### 転送設定
+mailhogには受信したメールを再転送する仕組みがある。
+
+転送先メーラーの設定を登録しておく場合は以下を参考に `mailhog/outgoing_smtp.json` を修正すること
+
+**mailhog/outgoing_smtp.json のサンプル**
+```
+{
+    "google": {
+        "name": "Google",
+        "host": "smtp.gmail.com",
+        "port": "587",
+        "username": "sample@example.com",
+        "password": "your application password",
+        "mechanism": "PLAIN"
+    }
+}
+```
+
+### 参考
+[https://github.com/mailhog/MailHog](https://github.com/mailhog/MailHog)
+

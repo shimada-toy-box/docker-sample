@@ -113,12 +113,12 @@ function up() {
 }
 
 function rm_pids() {
-  if [ -e tmp/spring ]; then
-     rm -rf tmp/spring
+  if [ -e api/tmp/spring ]; then
+     rm -rf api/tmp/spring
   fi
 
-  if [ -e tmp/pids/server.pid ]; then
-     rm tmp/pids/server.pid
+  if [ -e api/tmp/pids/server.pid ]; then
+     rm api/tmp/pids/server.pid
   fi
 }
 

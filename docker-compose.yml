@@ -8,7 +8,7 @@ x-custom:
     environment:
       DEVELOPMENT_DB_HOST: db
       DEVELOPMENT_DB_PASSWORD: password
-      SPRING_TMP_PATH: /tmp/spring
+      SPRING_TMP_PATH: /api/tmp/spring
       TEST_DB_HOST: db
       TEST_DB_PASSWORD: password
     stdin_open: true
@@ -16,7 +16,6 @@ x-custom:
     volumes:
       - ./api:/api
       - bundle:/usr/local/bundle
-      - spring:/tmp/spring
 
 services:
   api:
@@ -43,5 +42,3 @@ volumes:
     name: docker-sample_api_bundle
   mysql:
     name: docker-sample_db_mysql
-  spring:
-    name: docker-sample_spring_socket

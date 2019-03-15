@@ -17,6 +17,9 @@ Commands:
   clean       Remove all containers and images
   exec        Run command in choosed container
   init        Initialize docker images, network, and volumes
+  node        Run node in front container
+  npm         Run npm in front container
+  npx         Run npx in front container
   rails       Run rails in spring container
   rake        Run rake in spring container
   rails       Run redis-cli in spring container
@@ -27,6 +30,7 @@ Commands:
   stop        Stop containers
   top         Display the running processes
   up          Start containers as foreground
+  yarn        Run yarn in front container
 EOF
 }
 
@@ -76,6 +80,10 @@ function init() {
      git clone git@github.com:snowfield702/rails-sample.git api
   fi
 
+  if [ ! -e front ]; then
+     git clone git@github.com:snowfield702/react-sample.git front
+  fi
+
   if [ ! -e mailhog/outgoing_smtp.json ]; then
      cp mailhog/outgoing_smtp.json.sample mailhog/outgoing_smtp.json
   fi
@@ -88,6 +96,18 @@ function init() {
 
 function rails() {
   docker-compose exec spring bin/rails $@
+}
+
+function node() {
+  docker-compose exec front node $@
+}
+
+function npm() {
+  docker-compose exec front npm $@
+}
+
+function npx() {
+  docker-compose exec front npx $@
 }
 
 function rake() {
@@ -130,6 +150,10 @@ function up() {
   bundle_install
   rm_pids
   docker-compose up
+}
+
+function yarn() {
+  docker-compose exec front yarn $@
 }
 
 function rm_pids() {
@@ -207,9 +231,27 @@ case "${1}" in
     exit 1
   ;;
 
+  "node")
+    shift
+    node $@
+    exit 1
+  ;;
+
+  "npm")
+    shift
+    npm $@
+    exit 1
+  ;;
+
   "rails")
     shift
     rails $@
+    exit 1
+  ;;
+
+  "npx")
+    shift
+    npx $@
     exit 1
   ;;
 
@@ -260,6 +302,11 @@ case "${1}" in
 
   "up")
     up
+    exit 1
+  ;;
+
+  "yarn")
+    yarn
     exit 1
   ;;
 

@@ -2,6 +2,7 @@
 /tmp/*
 !/tmp/.keep
 api
+front
 
 mailhog/outgoing_smtp.json
 

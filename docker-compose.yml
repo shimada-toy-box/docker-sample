@@ -45,6 +45,13 @@ services:
       - '3306:3306'
     volumes:
       - mysql:/var/lib/mysql
+  front:
+    build: ./front
+    container_name: docker-sample_front
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./front:/front
   cache:
     container_name: docker-sample_cache
     image: redis:5.0.3-alpine

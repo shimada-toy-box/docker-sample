@@ -35,6 +35,13 @@ services:
     <<: *rails
     container_name: docker-sample_spring
     command: bin/spring server
+  front:
+    build: ./front
+    container_name: docker-sample_front
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./front:/front
   db:
     command: ["--sql_mode=NO_ENGINE_SUBSTITUTION"]
     container_name: docker-sample_db

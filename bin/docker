@@ -76,6 +76,15 @@ function execute() {
 function init() {
   echo -e $'\n\e[32mInitialize docker images, network, and volumes\e[m'
 
+  init_files
+
+  destroy
+  bundle_install
+  init_db
+  touch tmp/docker-init.lock
+}
+
+function init_files() {
   if [ ! -e api ]; then
      git clone git@github.com:snowfield702/rails-sample.git api
   fi
@@ -88,10 +97,9 @@ function init() {
      cp mailhog/outgoing_smtp.json.sample mailhog/outgoing_smtp.json
   fi
 
-  destroy
-  bundle_install
-  init_db
-  touch tmp/docker-init.lock
+  if [ ! -e .env ]; then
+     cp .env.sample .env
+  fi
 }
 
 function rails() {

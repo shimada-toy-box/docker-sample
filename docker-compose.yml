@@ -47,7 +47,10 @@ services:
       - mysql:/var/lib/mysql
   front:
     build: ./front
+    command: ["npm", "start"]
     container_name: docker-sample_front
+    ports:
+      - '3001:3000'
     stdin_open: true
     tty: true
     volumes:

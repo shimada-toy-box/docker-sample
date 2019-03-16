@@ -79,7 +79,7 @@ function init() {
   init_files
 
   destroy
-  bundle_install
+  install_packages
   init_db
   touch tmp/docker-init.lock
 }
@@ -155,7 +155,7 @@ function top() {
 function up() {
   init_if_need
   echo -e $'\n\e[32mStart containers as foreground\e[m'
-  bundle_install
+  install_packages
   rm_pids
   docker-compose up
 }
@@ -184,8 +184,9 @@ function init_db() {
   docker-compose run --rm api bundle exec rails db:create db:migrate db:test:prepare
 }
 
-function bundle_install() {
+function install_packages() {
   docker-compose run --rm api bundle install -j4 --system --clean
+  docker-compose run --rm front yarn install
 }
 
 shift `expr $OPTIND - 1`

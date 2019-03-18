@@ -317,7 +317,8 @@ case "${1}" in
   ;;
 
   "yarn")
-    yarn
+    shift
+    yarn $@
     exit 1
   ;;
 

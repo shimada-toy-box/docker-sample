@@ -196,6 +196,8 @@ if [ $# -eq 0 ];then
   exit 1
 fi
 
+cd $(dirname $BASH_SOURCE)/..
+
 case "${1}" in
   "attach")
     shift
@@ -315,7 +317,8 @@ case "${1}" in
   ;;
 
   "yarn")
-    yarn
+    shift
+    yarn $@
     exit 1
   ;;
 

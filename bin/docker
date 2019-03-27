@@ -30,7 +30,6 @@ Commands:
   stop        Stop containers
   top         Display the running processes
   up          Start containers as foreground
-  yarn        Run yarn in front container
 EOF
 }
 
@@ -160,10 +159,6 @@ function up() {
   docker-compose up
 }
 
-function yarn() {
-  docker-compose exec front yarn $@
-}
-
 function rm_pids() {
   if [ -e api/tmp/spring ]; then
      rm -rf api/tmp/spring
@@ -186,7 +181,7 @@ function init_db() {
 
 function install_packages() {
   docker-compose run --rm api bundle install -j4 --system --clean
-  docker-compose run --rm front yarn install
+  docker-compose run --rm front npm install
 }
 
 shift `expr $OPTIND - 1`
@@ -313,12 +308,6 @@ case "${1}" in
 
   "up")
     up
-    exit 1
-  ;;
-
-  "yarn")
-    shift
-    yarn $@
     exit 1
   ;;
 
